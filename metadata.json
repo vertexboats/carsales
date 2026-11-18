@@ -1,0 +1,6 @@
+{
+  "name": "Derico Motors",
+  "description": "Modern Digital Dealership — Buy, Rent, and Book Pick-up Vehicles in Cameroon (XAF) with Dynamic Inventory & WhatsApp API Integration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

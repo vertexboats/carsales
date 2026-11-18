@@ -1,0 +1,597 @@
+# Derico Motors - UI Prototype Specification
+
+Use this file as the brief for building a clickable UI prototype (Figma, or a coded prototype in React + Tailwind). It covers the **public website** and the **admin dashboard**, with a detailed **Inventory** module (brands + searchable properties) and the **WhatsApp API** layer.
+
+> Prototype rules: use realistic fake data (section 12), no real backend, no client accounts. Only the admin logs in. Prices are in **XAF (FCFA)**. Languages: **EN / FR** toggle. Time zone: WAT.
+
+---
+
+## 1. Design direction and brand identity
+
+**Direction C - Modern Digital Dealership.** A modern, clean and professional identity built around blue, white and neutral grey tones. The same palette is used on the public website and the admin dashboard.
+
+### 1.1 Colour palette
+
+**Primary colours**
+
+| Name | Hex | Use |
+|---|---|---|
+| Deep Navy | `#14213D` | Brand colour, headings, visual hierarchy, navbar/footer, sidebar |
+| Royal Blue | `#2563EB` | Primary action buttons, links, key interactions |
+| Pure White | `#FFFFFF` | Cards, modals, inputs |
+| Soft Background | `#F7F9FC` | Application and page background |
+
+**Supporting colours**
+
+| Name | Hex | Use |
+|---|---|---|
+| Light Blue | `#EFF6FF` | Active navigation background, selected rows, soft highlights |
+| Border Grey | `#E8EDF4` | Borders and dividers |
+| Charcoal | `#222222` | Strong text, high-emphasis labels |
+| Slate Text | `#475569` | Body text |
+| Muted Text | `#8290A3` | Secondary text, placeholders, helper text |
+| Automotive Red | `#DC2626` | Promotions, discounts and important highlights only |
+
+**Functional / status colours**
+
+| Name | Hex | Use |
+|---|---|---|
+| Success Green | `#16A34A` | Available, confirmed, paid, delivered, connected |
+| Warning Amber | `#F59E0B` | Pending, reserved, limited, expiring soon |
+| Error Red | `#DC2626` | Errors, failed, overdue, cancelled, destructive actions |
+
+### 1.2 UI colour application
+
+| UI element | Colour |
+|---|---|
+| Primary brand colour | Deep Navy `#14213D` |
+| Primary action buttons | Royal Blue `#2563EB` (white text) |
+| Button hover | `#1D4ED8` |
+| Application background | `#F7F9FC` |
+| Cards and modal backgrounds | `#FFFFFF` |
+| Headings | `#14213D` |
+| Body text | `#475569` |
+| Secondary text | `#8290A3` |
+| Borders and dividers | `#E8EDF4` |
+| Active navigation background | `#EFF6FF` (with Royal Blue or Navy text and a blue left indicator) |
+
+### 1.3 Design tokens (copy into the prototype)
+
+```css
+:root {
+  /* Primary */
+  --navy: #14213D;
+  --blue: #2563EB;
+  --blue-hover: #1D4ED8;
+  --white: #FFFFFF;
+  --bg: #F7F9FC;
+
+  /* Supporting */
+  --blue-soft: #EFF6FF;
+  --border: #E8EDF4;
+  --charcoal: #222222;
+  --text: #475569;
+  --text-muted: #8290A3;
+  --promo-red: #DC2626;
+
+  /* Status */
+  --success: #16A34A;
+  --warning: #F59E0B;
+  --error: #DC2626;
+}
+```
+
+Tailwind equivalent (`tailwind.config.js` > `theme.extend.colors`):
+`navy: '#14213D'`, `brand: { DEFAULT: '#2563EB', hover: '#1D4ED8', soft: '#EFF6FF' }`, `surface: '#F7F9FC'`, `line: '#E8EDF4'`, `ink: '#222222'`, `slate: '#475569'`, `muted: '#8290A3'`, `promo: '#DC2626'`, `success: '#16A34A'`, `warning: '#F59E0B'`, `danger: '#DC2626'`.
+
+### 1.4 Colour usage rules
+
+- Keep the interface **clean, minimal and spacious**.
+- Use **Royal Blue for primary interactions** and important actions (one primary button per view).
+- Use **Navy to establish brand identity** and hierarchy: logo, headings, navbar, hero, footer, admin sidebar.
+- Use **white and soft grey** to keep text readable; cards sit on `#F7F9FC` with a `#E8EDF4` border and a very soft shadow.
+- **Reserve Automotive Red** for promotions, discounts, "Hot deal" / "Price drop" badges and key highlights. Do not use it for ordinary buttons or navigation.
+- Use the **status colours consistently** everywhere (same colour means the same thing on the website and the dashboard).
+- Keep colours **identical across the public website and admin dashboard**.
+- **WhatsApp green** (`#25D366`, the official WhatsApp brand colour) is the one external colour kept, used only on WhatsApp buttons, the floating WhatsApp button and WhatsApp-related status. It is not part of the Derico palette and should not be used for anything else.
+
+### 1.5 Status colour mapping
+
+| State | Colour | Examples |
+|---|---|---|
+| Success | `#16A34A` on a 10% green tint | Available, Confirmed, Paid, Delivered, Connected, Completed |
+| Warning | `#F59E0B` on a 12% amber tint, dark amber text | Pending, Reserved, Limited, Licence expiring, Partially paid |
+| Error | `#DC2626` on a 10% red tint | Failed, Overdue, Cancelled, Disconnected, Booked (unavailable dates) |
+| Info / in progress | Royal Blue `#2563EB` on `#EFF6FF` | In progress, New request, Sent, Read |
+| Neutral | Slate `#475569` on `#E8EDF4` | Sold, Draft, Archived, Inactive |
+
+### 1.6 Other design decisions
+
+| Item | Decision |
+|---|---|
+| Personality | Trustworthy, modern and approachable. A digital-first dealership. |
+| Typography | Headings: a bold geometric sans (e.g. Poppins / Montserrat) in Navy. Body: Inter in Slate. Sizes: 14-16px body, 28-40px page titles. |
+| Shape | 12px rounded cards, 8px rounded inputs and buttons, soft shadows |
+| Imagery | Large car photos, 4:3 ratio cards, lazy-loaded, skeleton loaders |
+| Icons | Lucide icon set |
+| Layout | Mobile-first. Breakpoints: 360 / 768 / 1024 / 1280. Public site max width 1200px. Generous white space. |
+| Dark mode | Not in this phase (keeps the palette consistent) |
+
+### 1.7 Accessibility notes on the palette
+
+- Body text `#475569` and headings `#14213D` on white pass AA contrast.
+- **Muted Text `#8290A3` is low contrast on white** (about 3.3:1). Use it only for secondary or helper text, placeholders and disabled states, never for essential information or small body copy.
+- **Warning Amber `#F59E0B` is not readable as text on white.** Use it as a badge or icon colour with dark amber text (for example `#92400E`) on an amber tint.
+- Royal Blue buttons with white text pass AA. Always show a visible focus ring (`2px` Royal Blue, `2px` offset).
+- Never rely on colour alone: pair status colours with an icon or label.
+- Minimum 44px tap targets; labels on all inputs.
+
+Performance mindset (Cameroon mobile data): light pages, compressed images, no heavy animations.
+
+---
+
+## 2. Sitemap
+
+### Public website (no login)
+```
+Home
+Buy Cars
+  Shop by Brand (grid)
+  Brand page  (e.g. /buy-cars/toyota)
+  Car detail
+Rent Cars
+  Car detail + booking
+Pick-up
+  Vehicle detail + booking
+Services
+  Service detail
+Policies
+  Terms and Conditions
+  Rental Policy
+  Pick-up Policy
+  Cancellation and Refund Policy
+  Privacy Policy
+Contact Us
+```
+
+### Admin dashboard (login required)
+```
+Login
+Dashboard (overview)
+Sales
+  Cars for sale
+  Brands and models
+  Vehicle properties (searchable attributes)
+  Viewing / quotation requests
+Rentals
+  Rental cars
+  Rental bookings
+Pick-up
+  Pick-up vehicles
+  Pick-up bookings
+Drivers
+Services
+Billing
+  Invoices
+  Sales receipts
+Messaging (WhatsApp)
+  Inbox / message centre
+  Templates
+  Automations
+  Message log
+  Connection settings
+Pages and policies
+Settings
+```
+
+---
+
+## 3. Global components
+
+- **Top navbar (public):** logo, Buy Cars, Rent Cars, Pick-up, Services (dropdown listing services), Contact, EN/FR switch, "WhatsApp us" button (WhatsApp green), with Royal Blue for the main "Get a quote" action.
+- **Sticky WhatsApp button:** floating bottom-right circle on every public page (mobile: bottom bar with Call + WhatsApp).
+- **Footer:** quick links, policy links, address, phone, WhatsApp, social icons, opening hours.
+- **Car card:** photo, brand logo chip, title, year, 3 key specs (fuel, transmission, mileage), price in XAF, status badge, "View details" and a small WhatsApp icon button.
+- **Status badge:** Available (Success Green), Reserved (Warning Amber), Sold (neutral grey), Booked (Error Red). See section 1.5.
+- **Promo badge:** "Price drop" / "Hot deal" in Automotive Red, used sparingly.
+- **Calendar picker:** month view, available dates white, pending dates in Warning Amber tint, booked dates in Error Red tint with strike, selected range in Royal Blue, "Next available: 24 Nov" helper text.
+- **CTA trio component:** `[WhatsApp] [Request by form] [Call]` used on every car, rental and pick-up detail page.
+- **Admin data table:** search, filters, column toggle, bulk select, row actions menu, pagination, export CSV.
+- **Admin drawer/side panel:** used for quick view and edit without leaving the table.
+- **Toasts, empty states, confirm-delete modal.**
+
+---
+
+## 4. Public website screens
+
+### 4.1 Home
+1. Hero: headline, subheading, quick search bar (Brand dropdown, Body type, Price range, "Search cars"), CTA buttons: Buy, Rent, Book a pick-up.
+2. **Shop by brand** strip: scrollable brand logos with counts.
+3. Featured cars (4 cards).
+4. Three service tiles: Buy, Rent, Pick-up.
+5. Why choose Derico Motors (4 icon points).
+6. Services preview.
+7. Testimonials (static placeholders).
+8. Final CTA banner with WhatsApp button.
+
+### 4.2 Buy Cars
+- **Top: Shop by brand** grid. Each tile: logo, brand name, "12 cars". "View all" tile at the start.
+- **Left filter panel** (drawer on mobile): the filters are **generated from the Vehicle Properties library** (section 6.3), so any property marked "Show as filter" appears here automatically. Defaults:
+  - Brand (multi-select) then Model (dependent)
+  - Body type, Condition, Fuel, Transmission, Drive type
+  - Year range, Price range (slider, XAF), Mileage range
+  - Colour, Seats, Features (checkbox list: AC, leather seats, sunroof, reverse camera...)
+  - Location / city (Douala, Yaounde...)
+- Sort: Newest, Price low to high, Price high to low, Mileage.
+- Active filter chips with "Clear all".
+- Results grid of car cards, result count, pagination or "Load more".
+- Empty state: "No car matches. Tell us what you want" with WhatsApp request button (prefilled).
+
+### 4.3 Brand page (e.g. Toyota)
+Brand logo and short intro, model chips (Corolla, Hilux, Land Cruiser...), then the same filter and grid scoped to the brand.
+
+### 4.4 Car detail (sale)
+- Image gallery with thumbnails and zoom.
+- Title, brand logo, status badge, price in XAF, "Reference: DM-S-0123".
+- Specs table (grouped: General, Engine, Interior, Safety, Features) built from the car's property values.
+- Description.
+- **CTA trio:**
+  - **WhatsApp:** opens `wa.me` with prefilled text: "Hello Derico Motors, I am interested in the 2019 Toyota Corolla (DM-S-0123). Link: ..."
+  - **Form:** modal with name, phone (WhatsApp number), email, preferred viewing date, message, checkbox "I agree to receive WhatsApp messages about my request". Submit then success screen.
+  - **Call:** tap-to-call.
+- Similar cars carousel.
+
+### 4.5 Rent Cars (list and detail)
+- List: cards with price per day, seats, transmission, "With driver available" badge, availability badge for next date.
+- Detail: gallery, specs, price per 24 hours, CTA trio, and **booking panel**:
+  1. Toggle: **Self-drive / With driver**
+  2. Calendar: select start and end date (booked dates disabled, status legend, next availability note)
+  3. Pick-up location, return location, notes
+  4. Name, phone, email
+  5. Checkbox: "I accept the Rental Policy" (link opens policy modal)
+  6. Summary box: days x daily rate (information only), then "Send booking request"
+  7. Confirmation screen: "Request received. We will confirm on WhatsApp." with reference number.
+
+### 4.6 Pick-up (list and detail)
+- Same pattern as rentals, price per trip.
+- Booking panel: date and time, pick-up point, destination, passengers, luggage, notes, contact, Pick-up Policy checkbox, send request.
+
+### 4.7 Services (list and detail)
+Detail page: cover picture, description, **Why choose us** (icon list), **FAQs** (accordion), CTA (WhatsApp / form / call).
+
+### 4.8 Policy pages
+Clean reading layout with table of contents sidebar, "last updated" date and version.
+
+### 4.9 Contact Us
+Phone numbers, WhatsApp button, email, address, map embed placeholder, opening hours, contact form.
+
+---
+
+## 5. Admin dashboard: shell and overview
+
+### 5.1 Layout
+- Left sidebar (collapsible) with the sitemap groups above and icons. Navy sidebar background (or white with Navy text); the active item uses a `#EFF6FF` background, Royal Blue text and a blue left indicator.
+- Top bar: global search, WhatsApp connection status pill (Success Green "Connected", Warning Amber "Limited", Error Red "Disconnected"), notifications bell, admin avatar menu.
+- Content area with page title, breadcrumb and primary action button on the right.
+
+### 5.2 Login
+Email, password, show/hide password, "Forgot password", logo. No sign-up.
+
+### 5.3 Overview
+- KPI cards: New requests (today), Viewings this week, Active rentals, Pick-ups today, Unpaid invoices, Messages failed.
+- "Needs action" list: pending bookings to confirm, bookings without a driver, expiring driver licences.
+- Today's schedule timeline (viewings, handovers, trips).
+- Fleet availability widget: available vs booked cars.
+- Recent WhatsApp activity (last 5 messages with status icons).
+- Quick actions: Add car, Add booking, Create invoice, Send WhatsApp message.
+
+---
+
+## 6. INVENTORY (Sales) - detailed design
+
+This is the core module the prototype must get right. Three screens work together: **Cars**, **Brands and models**, **Vehicle properties**.
+
+### 6.1 Cars for sale (list)
+- Table columns: photo, title, brand, model, year, price (XAF), status, views, requests, updated.
+- Filters: brand, status, body type, price, year.
+- Top-right: **+ Add car**, **Import CSV**, **Export**.
+- Row actions: Edit, Duplicate, Mark reserved, Mark sold (opens receipt flow), Archive, Delete.
+- Toggle between Table view and Grid view.
+- Bulk actions: publish, unpublish, change status, delete.
+
+### 6.2 Brands and models
+Split layout.
+
+**Left panel: Brands**
+- Search box and **+ Add brand** button.
+- List of brand rows: drag handle (reorder), logo, name, number of cars, "Featured" star toggle, visible toggle, edit and delete icons.
+- Add/Edit brand drawer fields:
+  - Brand name (required)
+  - Logo upload (square, PNG/SVG, preview)
+  - Slug (auto-generated, editable)
+  - Short description (shown on brand page)
+  - Featured on home (toggle)
+  - Visible on website (toggle)
+  - Display order (drag)
+
+**Right panel: Models of the selected brand**
+- Header: brand logo + name, "+ Add model" button.
+- Model rows: drag handle, model name, body type default, years available, number of cars, visible toggle, edit, delete.
+- Add model fields: model name, default body type, optional image.
+- Inline quick-add: type a model name and press Enter.
+
+**Rules shown in the UI:**
+- Deleting a brand with cars shows a blocking modal: "12 cars use this brand. Reassign or archive them first."
+- Empty state: "No brands yet. Add your first brand, for example Toyota."
+- Suggested brands row (one-tap add): Toyota, Mercedes-Benz, Hyundai, Kia, Nissan, Peugeot, Honda, Ford, Volkswagen, Mitsubishi, Suzuki, Renault, BMW, Land Rover, Isuzu.
+
+### 6.3 Vehicle properties (searchable attributes, independent of brand)
+A library of **properties** that describe any car regardless of brand, so buyers can search by what they care about. Whatever the admin creates here automatically becomes (a) a field on the Add car form and (b) a filter on the public Buy Cars page.
+
+**Screen layout:** list of properties grouped in collapsible sections (General, Engine and performance, Body and interior, Safety, Features and comfort, Commercial), with drag-to-reorder and a toggle row. **+ Add property** button top right. Search box.
+
+**Property row:** drag handle, name, type tag, "Filter" toggle, "Required" toggle, "Visible on card" toggle, edit and delete.
+
+**Add / Edit property drawer fields:**
+
+| Field | Details |
+|---|---|
+| Property name | e.g. Fuel type |
+| Group | General / Engine / Body / Safety / Features / Commercial / custom |
+| Input type | Single select (dropdown), Multi select (checkboxes), Number, Number range, Yes/No, Short text, Colour |
+| Options | For selects: add, rename, reorder options (chips). e.g. Petrol, Diesel, Hybrid, Electric |
+| Unit | For numbers: km, cc, hp, seats, doors, litres... |
+| Show as public filter | Toggle. Choose filter style: checkbox list, dropdown, slider, toggle |
+| Required when adding a car | Toggle |
+| Show on car card | Toggle (max 3 properties on card) |
+| Applies to | Cars for sale / Rental cars / Pick-up vehicles (multi-select) |
+| Display order | Drag |
+
+**Preloaded default properties (editable, deletable except core ones):**
+
+| Group | Property | Type |
+|---|---|---|
+| General | Condition (New, Foreign used "tokunbo", Locally used) | Single select |
+| General | Year of manufacture | Number |
+| General | Mileage (km) | Number |
+| General | Colour (exterior) | Colour/select |
+| General | Location (Douala, Yaounde, Bafoussam...) | Single select |
+| General | Registration status (Registered, Not registered, Customs cleared) | Single select |
+| Engine | Fuel type | Single select |
+| Engine | Transmission (Manual, Automatic) | Single select |
+| Engine | Engine size (cc) | Number |
+| Engine | Drive type (2WD, 4WD, AWD) | Single select |
+| Body | Body type (Sedan, SUV, Pickup, Hatchback, Minibus, Van, Coupe, Truck) | Single select |
+| Body | Number of seats | Number |
+| Body | Number of doors | Number |
+| Body | Interior (Leather, Fabric) | Single select |
+| Safety | Airbags, ABS, Reverse camera, Parking sensors | Yes/No |
+| Features | Air conditioning, Sunroof, Bluetooth, Navigation, Cruise control, Keyless entry | Yes/No (grouped as "Features" multi-select) |
+| Commercial | Price (XAF) - core, not deletable | Number |
+| Commercial | Negotiable (Yes/No) | Yes/No |
+| Commercial | Warranty available | Yes/No |
+
+**Live preview panel (right side of drawer):** shows how the filter will look on the public Buy Cars page and how the field will look on the Add car form. This is a key prototype interaction.
+
+### 6.4 Add / Edit car (full page form, stepper or tabs)
+**Tabs:** 1 Basic info, 2 Properties, 3 Photos, 4 Description and pricing, 5 Publishing.
+
+1. **Basic info**
+   - Brand (dropdown with search + "Add new brand" link opening the brand drawer)
+   - Model (dependent dropdown + "Add new model")
+   - Trim / version (optional text)
+   - Title (auto-suggested: "2019 Toyota Corolla 1.8 Automatic", editable)
+   - Reference number (auto: DM-S-0123, editable)
+   - Chassis / VIN number (private, admin only, used on receipts)
+2. **Properties**
+   - Form is **generated from the property library** (section 6.3), grouped in sections. Required ones marked with an asterisk.
+   - Quick-fill: "Copy properties from another car".
+3. **Photos**
+   - Drag-and-drop multi-upload, reorder, set cover photo, delete, caption, image quality hint, upload progress.
+   - Optional video link.
+4. **Description and pricing**
+   - Description (rich text, EN and FR tabs)
+   - Price (XAF), Negotiable toggle, optional "Price on request" toggle
+5. **Publishing**
+   - Status: Draft / Available / Reserved / Sold
+   - Visible on website toggle, Featured on home toggle
+   - Public page preview (opens in a modal, mobile and desktop switch)
+   - Buttons: Save draft, Publish
+
+Sticky footer: Cancel, Save draft, Publish. Unsaved changes warning.
+
+### 6.5 Viewing and quotation requests
+- Table: reference, client, phone, car, source (Form, WhatsApp, Call, Walk-in), preferred date, status, assigned to, created.
+- Status flow chips: New > Contacted > Viewing scheduled > Completed > Sold / Cancelled.
+- **+ Add request** (manual).
+- Row drawer: client info, car summary card, notes timeline, buttons: **Send WhatsApp** (opens message composer), **Call**, **Schedule viewing**, **Mark as sold and create receipt**.
+
+---
+
+## 7. Rentals, Pick-up and Drivers
+
+### 7.1 Rental cars / Pick-up vehicles (list and form)
+Same pattern as inventory: table, filters, add/edit form. Fields: photos, title, short description, specifications (from the same property library, "Applies to" filter), price per day (rentals) or price per trip (pick-up), driver option available (rentals), status, blocked dates (calendar for maintenance).
+
+### 7.2 Rental bookings and Pick-up bookings
+- Toggle: **Table / Calendar** view (calendar shows vehicles as rows and dates as columns, booked blocks coloured by status).
+- Table columns: reference, client, vehicle, dates (or date/time), with/without driver, **Assigned driver (inline dropdown)**, status, payment status, WhatsApp status icon, actions.
+- **Inline driver assignment:** dropdown lists only drivers free on those dates; busy drivers appear greyed with "Busy until...". Conflict warning toast if overlapping.
+- Status flow: Pending > Confirmed > In progress > Completed / Cancelled.
+- Row drawer: client details, booking details, policy accepted (version and time), driver card, notes, **Message thread**, buttons: Confirm (also sends WhatsApp), Reschedule, Cancel, **Create invoice**.
+- **+ Add booking** (manual, 3-step: client, vehicle and dates, driver and notes).
+
+### 7.3 Drivers
+- Table: photo, name, phone, licence number, licence expiry (Error Red if under 30 days, Warning Amber if under 60), status (Active/Inactive), current assignment.
+- Add/Edit form: full name, address, phone (WhatsApp), email, licence number and expiry, ID/passport number, passport photo upload, emergency contact, notes, status.
+- Driver profile page with upcoming assignments and history.
+- Button on driver row: **Send job details on WhatsApp**.
+
+### 7.4 Services
+- Table of services with show/hide toggle and drag-order.
+- Form: title, cover picture, description (rich text), why choose us (repeater: icon + title + text), FAQs (repeater: question + answer), call-to-action (button text, type WhatsApp/Form/Call), preview.
+
+---
+
+## 8. Billing: invoices and sales receipts
+
+### 8.1 Invoices (services)
+- List: number (DM-INV-2026-0001), client, linked booking, total (XAF), paid, balance, status (Draft, Sent, Partially paid, Paid, Overdue, Cancelled), due date. Actions: View PDF, Send on WhatsApp, Send email, Record payment, Void.
+- **Create invoice:** client selector, linked booking (auto-fills line items), line items table (description, quantity, unit price, total), discount, tax, deposit paid, notes and payment instructions (bank, MTN MoMo, Orange Money), live **PDF preview** on the right.
+- Record payment modal: amount, method, reference, date.
+
+### 8.2 Sales receipts (car sales)
+- List: number (DM-REC-2026-0001), buyer, car, sale price, paid, balance, status (Deposit, Part-paid, Paid in full).
+- **Create receipt:** buyer details (name, phone, ID number, address), car details auto-filled from inventory (brand, model, year, chassis number, colour), sale price, payments table (deposit, instalments, final), signature lines, live PDF preview.
+- Saving a receipt prompts: "Mark car as Reserved / Sold?"
+- Issued documents are locked; correction = Void and re-issue (shows audit trail).
+
+---
+
+## 9. WHATSAPP API in the design
+
+WhatsApp appears in **five places**: public CTAs, booking/request drawers, the Messaging centre, automations and connection settings.
+
+### 9.1 Public side
+- Floating WhatsApp button, navbar button, CTA trio on every car, rental, pick-up and service page.
+- Prefilled message text per page type (shown in a small "Preview message" tooltip in the prototype).
+- Consent checkbox on every form: "I agree to receive confirmations and reminders on WhatsApp."
+
+### 9.2 Message composer (reusable modal opened from any request, booking, invoice or driver)
+- Recipient (name + number, editable).
+- **Template picker** (dropdown): shows approved templates and their preview.
+- Variable chips auto-filled from the record: `{{client_name}}`, `{{car}}`, `{{date}}`, `{{time}}`, `{{driver_name}}`, `{{driver_phone}}`, `{{amount}}`, `{{invoice_link}}`.
+- **Free text** area: enabled only when the client messaged in the last 24 hours (show a countdown pill "Free text window: 3h 12m left"); otherwise greyed with tooltip "Outside 24-hour window: use a template."
+- Attachments: invoice PDF, receipt PDF, car photo.
+- Buttons: **Send now**, **Schedule**, **Send via WhatsApp app** (click-to-chat fallback, opens `wa.me` with the text prefilled).
+- After send: message appears in the record's thread with status icons (clock = queued, one tick = sent, two ticks = delivered, blue two ticks = read, Error Red = failed with "Resend").
+
+### 9.3 Messaging centre (admin)
+**Tab 1: Inbox / Conversations**
+- Two-pane layout: conversation list (client, last message, unread dot, linked booking tag) and chat view.
+- Right info panel: client details, linked requests/bookings/invoices, quick actions (Create booking, Create invoice).
+- Filters: Unread, Needs reply, Pending bookings, Failed.
+- Note: shown as a design that works once the API (or provider) is connected; in fallback mode this tab shows "Inbox requires the WhatsApp API. Use Message log instead."
+
+**Tab 2: Templates**
+- Table: name, category (Utility, Marketing), language (EN/FR), status (Draft, Submitted, Approved, Rejected), last used.
+- Create template: name, category, language, body with variable insertion, example values, live WhatsApp-style bubble preview, "Submit for approval" button, rejection reason display.
+- Pre-seeded templates to show in the prototype: request received, viewing confirmation, viewing reminder, rental confirmed (with driver), rental handover reminder, return reminder, pick-up confirmed, pick-up reminder, driver assignment, booking cancelled, invoice sent, payment received, sales receipt.
+
+**Tab 3: Automations**
+- List of rules with on/off switches. Each rule: **Trigger** > **Delay/time** > **Template** > **Recipient**.
+- Examples:
+  | Trigger | Timing | Template | To |
+  |---|---|---|---|
+  | Request form submitted | Immediately | Request received | Client |
+  | New request received | Immediately | New request alert | Admin |
+  | Viewing scheduled | Immediately | Viewing confirmation | Client |
+  | Viewing | 24h and 2h before | Viewing reminder | Client |
+  | Rental confirmed | Immediately | Rental confirmed | Client |
+  | Rental start / end | 24h before | Handover / return reminder | Client |
+  | Pick-up confirmed | Immediately | Pick-up confirmed | Client and Driver |
+  | Pick-up | 3h before | Pick-up reminder | Client and Driver |
+  | Driver assigned | Immediately | Driver assignment | Driver |
+  | Invoice overdue | Due date + 2 days | Payment reminder | Client |
+- Rule editor: drawer with trigger dropdown, time offset control, template, recipients, quiet hours (e.g. do not send 21:00 to 07:00), language rule (client language or default).
+- Toggle at top: "Automatic" vs "Manual approval first" (messages queue for admin to approve).
+
+**Tab 4: Message log**
+- Table: time, recipient, template, linked record, channel (WhatsApp API / Click-to-chat / SMS / Email), status, error. Filters by status and date. Row action: Resend. Export CSV.
+- "Failed messages" banner with count and "Retry all".
+
+### 9.4 Connection settings (Messaging > Connection)
+A stepper-style page that supports the fallback plan:
+
+1. **Status card:** Connected / Limited / Not connected, business number, display name, quality rating (High/Medium/Low shown as Success Green, Warning Amber, Error Red), daily usage meter (e.g. "84 of 250 unique contacts today"), verification badge status (Unverified / Verified).
+2. **Connection method** (radio cards):
+   - **A. Official WhatsApp API (Meta Cloud API)**: fields: Business account ID, Phone number ID, Access token, Webhook URL and verify token (with copy buttons), "Test connection" button.
+   - **B. Through a provider (BSP)**: provider dropdown, API key, number.
+   - **C. Click-to-chat mode (no registration)**: explains that the admin taps send; enables the "To send today" queue.
+   - **D. Email / SMS backup**: SMTP and SMS provider fields.
+3. **Verification checklist:** business name, registration certificate, tax number, proof of address, display name approved, two-factor enabled. Each item with a status chip and "Upload / Mark done".
+4. **Fallback rules:** "If WhatsApp fails: retry 3 times, then send SMS/email, then alert admin."
+5. **Opt-in and compliance:** consent text editor, list of clients who opted out.
+6. **Test message:** send a test template to the admin number.
+
+### 9.5 "To send today" queue (click-to-chat mode)
+A dashboard card and a page listing messages due today (reminders, confirmations). Each row: recipient, message preview, **Open WhatsApp** button (wa.me link), **Mark as sent**. Counter shows remaining items.
+
+---
+
+## 10. Key prototype flows (clickable paths to wire up)
+
+1. **Buyer path:** Home > Shop by brand > Toyota > filter by Automatic + Petrol > Car detail > WhatsApp button (show prefilled preview) > Form submit > success.
+2. **Rental path:** Rent Cars > car detail > choose With driver > pick dates (see a booked range) > accept Rental Policy > submit > confirmation.
+3. **Admin inventory path:** Login > Sales > Brands and models > add brand "Lexus" > add model "RX 350" > Vehicle properties > add property "Sunroof type" with options and "Show as filter" > Add car (brand, model, dynamic property form) > Publish > view on public page.
+4. **Rental management path:** Rental bookings > open Pending booking > assign driver inline > Confirm > WhatsApp confirmation preview with status ticks > Create invoice > Record payment.
+5. **Sale path:** Viewing requests > open request > Mark as sold > Create receipt > PDF preview > send on WhatsApp.
+6. **WhatsApp setup path:** Messaging > Connection > choose method (A, C) > checklist > Test message; Automations > toggle reminder rule; Message log > resend failed.
+
+---
+
+## 11. States and responsive behaviour
+
+- **Empty states:** every table and list has an illustration, one-line explanation and a primary action.
+- **Loading:** skeleton cards and rows.
+- **Errors:** inline field errors, toast for failures, failed WhatsApp messages in red with "Resend".
+- **Confirmations:** destructive actions need a modal.
+- **Mobile public:** filters in bottom sheet, sticky Call + WhatsApp bar, calendar full width.
+- **Mobile admin:** sidebar becomes a hamburger drawer; tables become cards; key screens usable on a tablet.
+
+---
+
+## 12. Sample data for the prototype
+
+**Brands:** Toyota (14 cars), Mercedes-Benz (6), Hyundai (9), Kia (7), Nissan (5), Peugeot (4), Honda (3), Ford (3).
+
+**Toyota models:** Corolla, Camry, RAV4, Hilux, Land Cruiser Prado, Yaris.
+
+**Sample cars for sale**
+| Ref | Title | Price (XAF) | Key props |
+|---|---|---|---|
+| DM-S-0101 | 2019 Toyota Corolla 1.8 | 9 500 000 | Foreign used, Automatic, Petrol, 62 000 km, Sedan |
+| DM-S-0102 | 2017 Toyota RAV4 | 12 800 000 | Locally used, Automatic, Petrol, 88 000 km, SUV, AWD |
+| DM-S-0103 | 2020 Hyundai Tucson | 15 200 000 | Foreign used, Automatic, Diesel, 45 000 km, SUV |
+| DM-S-0104 | 2016 Toyota Hilux Double Cab | 13 900 000 | Locally used, Manual, Diesel, 120 000 km, Pickup, 4WD |
+| DM-S-0105 | 2018 Mercedes-Benz C200 | 18 500 000 | Foreign used, Automatic, Petrol, 70 000 km, Sedan |
+| DM-S-0106 | 2022 Kia Sportage | 21 000 000 | New, Automatic, Petrol, 5 000 km, SUV |
+
+**Sample rentals:** Toyota Corolla 2018 (45 000 XAF/day), Toyota Prado 2017 (95 000 XAF/day, with driver option), Hyundai H1 minibus (110 000 XAF/day).
+
+**Sample pick-up vehicles:** Toyota Camry (Airport Douala to Akwa, 15 000 XAF/trip), Toyota Hiace (Douala to Yaounde, 120 000 XAF/trip).
+
+**Sample drivers:** Paul Mbarga (licence expires in 20 days), Alain Tchoumi, Samuel Nkeng, Joseph Fotso.
+
+**Sample clients:** Marie Ngo Bassa (+237 6XX XX XX 01), Jean-Pierre Kamga, Aminatou Njoya, Stephen Ebong.
+
+**Sample WhatsApp statuses:** one Sent, one Delivered, one Read, one Failed ("Number not on WhatsApp") in the message log.
+
+---
+
+## 13. Suggested tech for a coded prototype (optional)
+
+- React + Tailwind CSS, lucide-react icons, recharts for dashboard mini-charts.
+- State kept in memory (no storage), seeded with the sample data above.
+- Router with the sitemap routes; admin routes behind a fake login.
+- Put the section 1.3 tokens in a single theme file so the whole prototype follows the palette.
+- Components to build first: CarCard, FilterPanel (driven by the property library), CalendarPicker, DataTable, Drawer, MessageComposer, StatusTicks, PropertyEditor with live preview.
+- Key behaviour to make real in the prototype: adding a property in the admin immediately adds a field to the Add car form and a filter to the Buy Cars page.
+
+---
+
+## 14. Prototype acceptance checklist
+
+- [ ] Admin can add, edit, reorder and hide brands and models.
+- [ ] Admin can create a vehicle property (select/number/yes-no), mark it as a filter, and see it appear on the Add car form and on the public filter panel.
+- [ ] Buy Cars page supports Shop by brand and filtering by brand-independent properties.
+- [ ] Every car, rental and pick-up page shows the WhatsApp / Form / Call trio.
+- [ ] Rental and pick-up booking show a calendar with booked dates and next availability, with the driver option on rentals.
+- [ ] Policy acceptance checkbox is present on rental and pick-up forms.
+- [ ] Rental and pick-up tables allow inline driver assignment.
+- [ ] Invoices and sales receipts have a live PDF preview.
+- [ ] Message composer shows templates, variables, 24-hour window state and message status ticks.
+- [ ] Messaging centre includes Inbox, Templates, Automations, Message log and Connection settings.
+- [ ] Connection settings show API, provider, click-to-chat and email/SMS options with a verification checklist.
+- [ ] Palette from section 1 applied everywhere: Royal Blue for primary actions, Navy for brand and headings, Automotive Red only for promotions, status colours used consistently, WhatsApp green only on WhatsApp elements.
+- [ ] Layouts work at 360px, 768px and 1280px widths.
