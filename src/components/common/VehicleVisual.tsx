@@ -15,20 +15,33 @@ import {
   siVolkswagen,
 } from 'simple-icons';
 
-export const HERO_SHOWROOM_IMAGE = '/src/assets/images/hero_showroom_suv_1794576090905.jpg';
+import heroShowroomImg from '../../assets/images/hero_showroom_suv_1794576090905.jpg';
+import corollaImg from '../../assets/images/car_toyota_corolla_1794576091175.jpg';
+import rav4Img from '../../assets/images/car_toyota_rav4_1794576091615.jpg';
+import tucsonImg from '../../assets/images/car_hyundai_tucson_1794576092503.jpg';
+import hiluxImg from '../../assets/images/car_toyota_hilux_1794576092872.jpg';
+import mercedesImg from '../../assets/images/car_mercedes_sedan_1794576093086.jpg';
+import sportageImg from '../../assets/images/car_kia_sportage_1794576094053.jpg';
+import pradoImg from '../../assets/images/car_prado_vip_1794576092877.jpg';
+import interiorImg from '../../assets/images/car_interior_cockpit_1794576093859.jpg';
+import minibusImg from '../../assets/images/car_shuttle_minibus_1794576094709.jpg';
 
-const IMAGE_MAP = {
-  corolla: '/src/assets/images/car_toyota_corolla_1794576091175.jpg',
-  rav4: '/src/assets/images/car_toyota_rav4_1794576091615.jpg',
-  tucson: '/src/assets/images/car_hyundai_tucson_1794576092503.jpg',
-  hilux: '/src/assets/images/car_toyota_hilux_1794576092872.jpg',
-  mercedes: '/src/assets/images/car_mercedes_sedan_1794576093086.jpg',
-  sportage: '/src/assets/images/car_kia_sportage_1794576094053.jpg',
-  prado: '/src/assets/images/car_prado_vip_1794576092877.jpg',
-  interior: '/src/assets/images/car_interior_cockpit_1794576093859.jpg',
-  minibus: '/src/assets/images/car_shuttle_minibus_1794576094709.jpg',
-  showroom: HERO_SHOWROOM_IMAGE,
+export const HERO_SHOWROOM_IMAGE = heroShowroomImg;
+
+export const VEHICLE_IMAGES = {
+  corolla: corollaImg,
+  rav4: rav4Img,
+  tucson: tucsonImg,
+  hilux: hiluxImg,
+  mercedes: mercedesImg,
+  sportage: sportageImg,
+  prado: pradoImg,
+  interior: interiorImg,
+  minibus: minibusImg,
+  showroom: heroShowroomImg,
 };
+
+const IMAGE_MAP = VEHICLE_IMAGES;
 
 export function resolveVehicleImage(
   title = '',

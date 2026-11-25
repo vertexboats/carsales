@@ -17,7 +17,7 @@ import { useApp } from '../../context/AppContext';
 import { getLangText, translations } from '../../i18n/translations';
 import { CarForSale } from '../../types/derico';
 import { CarCard } from '../common/CarCard';
-import { BrandLogoMark, HERO_SHOWROOM_IMAGE } from '../common/VehicleVisual';
+import { BrandLogoMark, HERO_SHOWROOM_IMAGE, VEHICLE_IMAGES } from '../common/VehicleVisual';
 import { WhatsAppIcon } from '../common/WhatsAppIcon';
 
 export const HomePage: React.FC = () => {
@@ -511,7 +511,7 @@ export const HomePage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             {
-              img: '/src/assets/images/car_mercedes_sedan_1794576093086.jpg',
+              img: VEHICLE_IMAGES.mercedes,
               icon: Tag,
               kicker: 'Dealership Sales',
               title: 'Buy Inspected Vehicles',
@@ -520,7 +520,7 @@ export const HomePage: React.FC = () => {
               route: { page: 'buy' as const },
             },
             {
-              img: '/src/assets/images/car_prado_vip_1794576092877.jpg',
+              img: VEHICLE_IMAGES.prado,
               icon: KeyRound,
               kicker: 'Flexible Mobility',
               title: 'Daily & Corporate Rentals',
@@ -529,7 +529,7 @@ export const HomePage: React.FC = () => {
               route: { page: 'rent' as const },
             },
             {
-              img: '/src/assets/images/car_shuttle_minibus_1794576094709.jpg',
+              img: VEHICLE_IMAGES.minibus,
               icon: PlaneLanding,
               kicker: 'Airport & Intercity',
               title: 'Fixed-Rate Pick-up Transfers',
