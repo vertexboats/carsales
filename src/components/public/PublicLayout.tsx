@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { getLangText, translations } from '../../i18n/translations';
+import { DericoLogo } from '../common/DericoLogo';
 import { WhatsAppIcon } from '../common/WhatsAppIcon';
 
 export const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -131,24 +132,13 @@ export const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children
       {/* ============================================================== */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#ECECEC]">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 h-[68px] sm:h-[72px] flex items-center justify-between gap-4">
-          {/* Brand Mark: Stacked Derico / Line / Motors without slogan */}
+          {/* Brand Mark: Official Derico Motors Crest + Stacked Wordmark */}
           <button
             type="button"
             onClick={() => navigatePublic({ page: 'home' })}
-            className="flex items-center gap-2.5 text-left cursor-pointer whitespace-nowrap shrink-0 group"
+            className="flex items-center text-left cursor-pointer whitespace-nowrap shrink-0 group"
           >
-            <div className="w-10 h-10 rounded-2xl bg-[#040401] group-hover:bg-[#FF3600] text-white flex items-center justify-center shrink-0 transition-colors shadow-xs">
-              <Car className="w-5 h-5" />
-            </div>
-            <div className="h-10 flex flex-col justify-between py-0.5">
-              <span className="font-display font-extrabold text-[15px] tracking-[0.05em] text-[#040401] leading-none uppercase">
-                Derico
-              </span>
-              <div className="w-full h-[1.5px] bg-[#040401] rounded-full" />
-              <span className="font-display font-extrabold text-[10px] tracking-[0.24em] text-[#040401] leading-none uppercase">
-                Motors
-              </span>
-            </div>
+            <DericoLogo variant="light" size="md" />
           </button>
 
           {/* Desktop Primary Navigation Links */}
@@ -351,20 +341,7 @@ export const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children
         <div className="space-y-6">
           {/* Mobile Brand Identity */}
           <div className="flex items-center justify-between border-b border-white/10 pb-5">
-            <div className="flex items-center gap-2.5 text-left">
-              <div className="w-9 h-9 rounded-xl bg-[#FF3600] text-white flex items-center justify-center shrink-0 shadow-md shadow-[#FF3600]/30">
-                <Car className="w-4 h-4" />
-              </div>
-              <div className="h-9 flex flex-col justify-between py-0.5">
-                <span className="font-display font-extrabold text-[14px] tracking-[0.05em] text-white leading-none uppercase">
-                  Derico
-                </span>
-                <div className="w-full h-[1.5px] bg-white/80 rounded-full" />
-                <span className="font-display font-extrabold text-[9px] tracking-[0.24em] text-white/90 leading-none uppercase">
-                  Motors
-                </span>
-              </div>
-            </div>
+            <DericoLogo variant="dark" size="sm" />
             <span className="clay-pill px-2.5 py-1 rounded-full bg-white/10 text-[10px] font-semibold text-slate-300 border border-white/10">
               Douala • Yaoundé
             </span>
@@ -552,20 +529,7 @@ export const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children
       >
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 relative z-10">
           <div className="space-y-4">
-            <div className="flex items-center gap-2.5 text-left">
-              <div className="w-10 h-10 rounded-2xl bg-[#FF3600] text-white flex items-center justify-center shrink-0 shadow-lg shadow-[#FF3600]/30">
-                <Car className="w-5 h-5" />
-              </div>
-              <div className="h-10 flex flex-col justify-between py-0.5">
-                <span className="font-display font-extrabold text-[15px] tracking-[0.05em] text-white leading-none uppercase">
-                  Derico
-                </span>
-                <div className="w-full h-[1.5px] bg-white/80 rounded-full" />
-                <span className="font-display font-extrabold text-[10px] tracking-[0.24em] text-white/90 leading-none uppercase">
-                  Motors
-                </span>
-              </div>
-            </div>
+            <DericoLogo variant="dark" size="md" />
             <p className="text-xs text-slate-300/80 leading-relaxed">
               Modern digital car dealership serving Douala, Yaoundé, and nationwide Cameroon. Inspected sales, flexible rentals, and airport transfers in XAF.
             </p>

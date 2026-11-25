@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Car, Eye, EyeOff, Lock, Mail } from 'lucide-react';
+import { ArrowLeft, Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { DERICO_LOGO_SRC } from '../common/DericoLogo';
 
 export const AdminLogin: React.FC = () => {
   const { loginAdmin, setMode, addToast } = useApp();
@@ -33,8 +34,12 @@ export const AdminLogin: React.FC = () => {
 
         <div className="clay-card p-7 sm:p-8 space-y-6">
           <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-[#040401] text-[#FF3600] flex items-center justify-center shadow-xs">
-              <Car className="w-6 h-6" />
+            <div className="w-14 h-14 rounded-2xl bg-white border border-[#ECECEC] p-1 flex items-center justify-center shrink-0 shadow-xs overflow-hidden">
+              <img
+                src={DERICO_LOGO_SRC}
+                alt="Derico Motors Logo"
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
               <h1 className="font-display font-extrabold text-xl text-[#040401]">

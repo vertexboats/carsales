@@ -1,6 +1,7 @@
 import React from 'react';
 import { formatXaf } from '../../i18n/translations';
 import { Invoice, SalesReceipt } from '../../types/derico';
+import { DERICO_LOGO_SRC } from './DericoLogo';
 import { StatusBadge } from './StatusBadge';
 
 export const InvoicePdfPreview: React.FC<{ invoice: Invoice }> = ({ invoice }) => {
@@ -14,12 +15,19 @@ export const InvoicePdfPreview: React.FC<{ invoice: Invoice }> = ({ invoice }) =
   return (
     <div className="clay-card p-6 text-xs text-[#616161] space-y-5 bg-white">
       <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#ECECEC]">
-        <div>
-          <div className="font-display font-extrabold text-lg text-[#040401]">DERICO MOTORS</div>
-          <div className="text-[11px] text-[#616161] mt-0.5">
-            Rue des Hydrocarbures, Bonapriso, Douala · Cameroon
+        <div className="flex items-center gap-3">
+          <img
+            src={DERICO_LOGO_SRC}
+            alt="Derico Motors"
+            className="w-12 h-12 object-contain rounded-xl border border-[#ECECEC] p-0.5 bg-white shrink-0"
+          />
+          <div>
+            <div className="font-display font-extrabold text-lg text-[#040401]">DERICO MOTORS</div>
+            <div className="text-[11px] text-[#616161] mt-0.5">
+              Rue des Hydrocarbures, Bonapriso, Douala · Cameroon
+            </div>
+            <div className="text-[11px] text-[#616161]">+237 6 90 12 45 00 · contact@dericomotors.cm</div>
           </div>
-          <div className="text-[11px] text-[#616161]">+237 6 90 12 45 00 · contact@dericomotors.cm</div>
         </div>
         <div className="text-right">
           <div className="font-display font-bold text-base text-[#040401]">INVOICE</div>
@@ -127,10 +135,17 @@ export const SalesReceiptPdfPreview: React.FC<{ receipt: SalesReceipt }> = ({ re
   return (
     <div className="clay-card p-6 text-xs text-[#616161] space-y-5 bg-white">
       <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#ECECEC]">
-        <div>
-          <div className="font-display font-extrabold text-lg text-[#040401]">DERICO MOTORS</div>
-          <div className="text-[11px]">Official Vehicle Sales Receipt · Douala / Yaoundé</div>
-          <div className="text-[11px]">RCCM: RC/DLA/2021/B/1402 · NIU: M03211489021A</div>
+        <div className="flex items-center gap-3">
+          <img
+            src={DERICO_LOGO_SRC}
+            alt="Derico Motors"
+            className="w-12 h-12 object-contain rounded-xl border border-[#ECECEC] p-0.5 bg-white shrink-0"
+          />
+          <div>
+            <div className="font-display font-extrabold text-lg text-[#040401]">DERICO MOTORS</div>
+            <div className="text-[11px]">Official Vehicle Sales Receipt · Douala / Yaoundé</div>
+            <div className="text-[11px]">RCCM: RC/DLA/2021/B/1402 · NIU: M03211489021A</div>
+          </div>
         </div>
         <div className="text-right">
           <div className="font-display font-bold text-base text-[#040401]">SALES RECEIPT</div>

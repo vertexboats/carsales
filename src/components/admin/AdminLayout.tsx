@@ -28,6 +28,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { DericoLogo } from '../common/DericoLogo';
 import { WhatsAppIcon } from '../common/WhatsAppIcon';
 import { AdminPage } from '../../types/derico';
 import { StatusBadge } from '../common/StatusBadge';
@@ -154,15 +155,13 @@ export const AdminLayout: React.FC<{
   const renderSidebarContent = (isMobile = false) => (
     <div className="flex flex-col h-full bg-[#040401] text-slate-200 select-none border-r border-white/10">
       <div className="h-16 px-4 flex items-center justify-between border-b border-white/10 shrink-0">
-        <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-8 h-8 rounded-xl bg-[#FF3600] text-white flex items-center justify-center shrink-0 shadow-sm shadow-[#FF3600]/40">
-            <Car className="w-4 h-4" />
-          </div>
-          {(!collapsed || isMobile) && (
-            <span className="font-display font-bold text-base text-white truncate tracking-tight">
-              Derico<span className="text-[#FF3600]">.</span>Admin
-            </span>
-          )}
+        <div className="flex items-center min-w-0">
+          <DericoLogo
+            variant="dark"
+            size="sm"
+            showWordmark={!collapsed || isMobile}
+            adminLabel
+          />
         </div>
         {!isMobile ? (
           <button
